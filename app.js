@@ -1,14 +1,91 @@
-import LoginModal from './login-modal.js';
-import SignupModal from './signup-modal.js';
-import BookingModal from './booking-modal.js';
+Vue.component('login-modal', {
+    template: `
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-button" @click="$emit('close')">&times;</button>
+            <h2 class="modal-title">Log in</h2>
+            <form @submit.prevent="login">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" v-model="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" v-model="password" required>
+                </div>
+                <button type="submit">Log in</button>
+            </form>
+        </div>
+    </div>
+    `,
+    data() {
+        return {
+            email: '',
+            password: ''
+        };
+    },
+    methods: {
+        login() {
+            this.$emit('login', this.email, this.password);
+        }
+    }
+});
+
+Vue.component('signup-modal', {
+    template: `
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-button" @click="$emit('close')">&times;</button>
+            <h2 class="modal-title">Sign up</h2>
+            <form @submit.prevent="signup">
+                <div class="form-group">
+                    <label for="signupName">Name</label>
+                    <input type="text" id="signupName" v-model="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" v-model="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" v-model="password" required>
+                </div>
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+    </div>
+    `,
+    data() {
+        return {
+            name: '',
+            email: '',
+            password: ''
+        };
+    },
+    methods: {
+        signup() {
+            this.$emit('signup', this.name, this.email, this.password);
+        }
+    }
+});
+
+Vue.component('booking-modal', {
+    props: ['dates'],
+    template: `
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-button" @click="$emit('cancel')">&times;</button>
+            <h2 class="modal-title">Book Apartment</h2>
+            <p>Selected dates: {{ dates }}</p>
+            <button @click="$emit('confirm')">Confirm Booking</button>
+            <button @click="$emit('cancel')" style="background-color: var(--airbnb-light-gray); margin-left: 10px;">Cancel</button>
+        </div>
+    </div>
+    `
+});
 
 new Vue({
     el: '#app',
-    components: {
-        'login-modal': LoginModal,
-        'signup-modal': SignupModal,
-        'booking-modal': BookingModal
-    },
     data: {
         currentUser: null,
         showLoginModal: false,
