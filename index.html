@@ -10,16 +10,6 @@
 <body>
     <div id="app">
         <header class="header">
-            <div class="logo">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 0 A50 50 0 1 1 50 100 A50 50 0 1 1 50 0 Z" fill="var(--cheese-yellow)"/>
-                    <circle cx="30" cy="30" r="10" fill="white"/>
-                    <circle cx="70" cy="40" r="15" fill="white"/>
-                    <circle cx="40" cy="70" r="12" fill="white"/>
-                    <path d="M0 50 Q25 60 50 50 T100 50" fill="none" stroke="var(--airbnb-dark-gray)" stroke-width="2"/>
-                </svg>
-                FriendSpace
-            </div>
             <nav class="nav-buttons">
                 <button v-if="!currentUser" @click="showLoginModal = true">Log in</button>
                 <button v-if="!currentUser" @click="showSignupModal = true">Sign up</button>
