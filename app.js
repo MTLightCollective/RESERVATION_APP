@@ -1,5 +1,5 @@
 Vue.component('login-modal', {
-    template: `
+    template: '
     <div class="modal">
         <div class="modal-content">
             <button class="close-button" @click="$emit('close')">&times;</button>
@@ -17,7 +17,7 @@ Vue.component('login-modal', {
             </form>
         </div>
     </div>
-    `,
+    ',
     data() {
         return {
             email: '',
@@ -32,7 +32,7 @@ Vue.component('login-modal', {
 });
 
 Vue.component('signup-modal', {
-    template: `
+    template: '
     <div class="modal">
         <div class="modal-content">
             <button class="close-button" @click="$emit('close')">&times;</button>
@@ -54,7 +54,7 @@ Vue.component('signup-modal', {
             </form>
         </div>
     </div>
-    `,
+    ',
     data() {
         return {
             name: '',
@@ -71,7 +71,7 @@ Vue.component('signup-modal', {
 
 Vue.component('booking-modal', {
     props: ['dates'],
-    template: `
+    template: '
     <div class="modal">
         <div class="modal-content">
             <button class="close-button" @click="$emit('cancel')">&times;</button>
@@ -81,7 +81,7 @@ Vue.component('booking-modal', {
             <button @click="$emit('cancel')" style="background-color: var(--airbnb-light-gray); margin-left: 10px;">Cancel</button>
         </div>
     </div>
-    `
+    '
 });
 
 new Vue({
@@ -99,7 +99,7 @@ new Vue({
     computed: {
         formattedDateRange() {
             if (this.startDate && this.endDate) {
-                return `${this.formatDate(this.startDate)} to ${this.formatDate(this.endDate)}`;
+                return '${this.formatDate(this.startDate)} to ${this.formatDate(this.endDate)}';
             } else if (this.startDate) {
                 return this.formatDate(this.startDate);
             }
