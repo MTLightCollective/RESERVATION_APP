@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FriendSpace Apartment Booking - Airbnb Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0 A50 50 0 1 1 50 100 A50 50 0 1 1 50 0 Z" fill="var(--cheese-yellow)"/>
+                    <circle cx="30" cy="30" r="10" fill="white"/>
+                    <circle cx="70" cy="40" r="15" fill="white"/>
+                    <circle cx="40" cy="70" r="12" fill="white"/>
+                    <path d="M0 50 Q25 60 50 50 T100 50" fill="none" stroke="var(--airbnb-dark-gray)" stroke-width="2"/>
+                </svg>
+                FriendSpace
+            </div>
+            <nav class="nav-buttons">
+                <button v-if="!currentUser" @click="showLoginModal = true">Log in</button>
+                <button v-if="!currentUser" @click="showSignupModal = true">Sign up</button>
+                <button v-if="currentUser" @click="logout">Log out</button>
+            </nav>
+        </header>
+
+        <h1>Apartment Availability Calendar</h1>
+
+        <div class="year-input">
+            <label for="yearInput">Year: </label>
+            <input type="number" id="yearInput" v-model="currentYear" @change="updateCalendar">
+        </div>
+
+        <div class="calendar-container">
+            <div v-for="month in 12" :key="month" class="month-calendar">
+                <div class="month-title">{{ getMonthName(month - 1) }}</div>
+                <div class="calendar">
+                    <div v-for="dayInfo in getMonthDays(month)" :key="dayInfo.day" 
+                         :class="['calendar-day', 
+                                  { 'booked-day': isBookedDay(dayInfo.date), 
+                                    'free-day': !isBookedDay(dayInfo.date) && dayInfo.day !== 0, 
+                                    'empty-day': dayInfo.day === 0,
+                                    'selected-day': isSelectedDay(dayInfo.date),
+                                    'in-range-day': isInRange(dayInfo.date) }]"
+                         @click="selectDate(dayInfo.date)">
+                        {{ dayInfo.day !== 0 ? dayInfo.day : '' }}
+                        <div v-if="isBookedDay(dayInfo.date)" class="booking-tooltip">
+                            Booked by: {{ getBookingUser(dayInfo.date) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="!currentUser" class="alert">
+            Please log in or sign up to book the apartment.
+        </div>
+
+        <!-- Modals -->
+        <login-modal v-if="showLoginModal" @close="showLoginModal = false"></login-modal>
+        <signup-modal v-if="showSignupModal" @close="showSignupModal = false"></signup-modal>
+        <booking-modal v-if="showBookingModal" :dates="formattedDateRange" @confirm="bookApartment" @cancel="cancelBooking"></booking-modal>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
